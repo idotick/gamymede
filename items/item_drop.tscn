@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://bg8ixoqexr301"]
+
+[ext_resource type="Script" uid="uid://cp43oalu2kaqt" path="res://items/drops/item_drop.gd" id="1_nhhfg"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_an6nj"]
+radius = 0.2
+height = 0.4
+
+[sub_resource type="Animation" id="Animation_nhhfg"]
+resource_name = "Drop"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.233333, 0.333333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 2.68614, 0), Vector3(0, 0.408102, 0), Vector3(0, 0.25, 0), Vector3(0, 0.408102, 0), Vector3(0, 0.25, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_an6nj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.686142, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g4j5n"]
+_data = {
+&"Drop": SubResource("Animation_nhhfg"),
+&"RESET": SubResource("Animation_an6nj")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vxb3s"]
+radius = 0.2
+
+[node name="ItemDrop" type="Node3D"]
+script = ExtResource("1_nhhfg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.686142, 0)
+mesh = SubResource("SphereMesh_an6nj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_g4j5n")
+}
+autoplay = "Drop"
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_vxb3s")
+
+[node name="Label3D" type="Label3D" parent="."]
+visible = false
+offset = Vector2(0, 160)
+billboard = 1
+double_sided = false
+text = "PICK UP?
+"
+font_size = 72
+uppercase = true
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]
