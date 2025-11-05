@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="stardew"
-run/main_scene="uid://db56m2y7q3q21"
+run/main_scene="uid://bexw6fs78jioe"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GlobalTime="*res://handlers/time.gd"
 
 [input]
 

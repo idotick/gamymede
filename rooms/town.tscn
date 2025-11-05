@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cxku3pkax6t28"]
+[gd_scene load_steps=16 format=3 uid="uid://cxku3pkax6t28"]
 
 [ext_resource type="Script" uid="uid://c241dhtdr8apy" path="res://rooms/room.gd" id="1_1jkbg"]
 [ext_resource type="ArrayMesh" uid="uid://cn7awmqh446fi" path="res://assets/models/DS _ DSi - Pokemon Diamond _ Pearl - Map Objects - Pokemon Center/Pokémon Center.obj" id="1_2brwk"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cd67cy8tov0mt" path="res://assets/models/DS _ DSi - Pokemon Diamond _ Pearl - Map Objects - Pokemon Center/pc_1.png" id="3_fqwm5"]
 [ext_resource type="Texture2D" uid="uid://dc1nsjis27ew1" path="res://assets/models/DS _ DSi - Pokemon Diamond _ Pearl - Map Objects - Pokemon Center/pc_2.png" id="4_xqj6d"]
 [ext_resource type="PackedScene" uid="uid://lrhxr5j0hs1c" path="res://portals/portal.tscn" id="6_k8u3p"]
+[ext_resource type="PackedScene" uid="uid://1gl1bfkcoj3v" path="res://environment/environment.tscn" id="6_t1r8a"]
 [ext_resource type="PackedScene" uid="uid://dgdcspgsamvom" path="res://props/tree/tree.tscn" id="7_b78hp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
@@ -16,19 +17,6 @@ albedo_texture = ExtResource("3_fqwm5")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
 albedo_texture = ExtResource("4_xqj6d")
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7dm0k"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-
-[sub_resource type="Sky" id="Sky_ig7tw"]
-sky_material = SubResource("ProceduralSkyMaterial_7dm0k")
-
-[sub_resource type="Environment" id="Environment_0xm2m"]
-background_mode = 2
-sky = SubResource("Sky_ig7tw")
-tonemap_mode = 2
-glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ycdy4"]
 albedo_color = Color(0.10870918, 0.20440155, 0.21508306, 1)
@@ -59,14 +47,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
 surface_material_override/2 = SubResource("StandardMaterial3D_kek77")
 surface_material_override/3 = SubResource("StandardMaterial3D_4c57u")
 
-[node name="Environment" type="Node3D" parent="Map"]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Map/Environment"]
-environment = SubResource("Environment_0xm2m")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map/Environment"]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
-shadow_enabled = true
+[node name="Environment" parent="Map" instance=ExtResource("6_t1r8a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Floor" type="Node3D" parent="Map"]
 
