@@ -15,16 +15,17 @@ var moon_offset: float
 @export var top_color: Gradient
 @export var horizon_color: Gradient
 
-@export var day_length: float = 20.0
+@export var day_length: float = 420.0
 @export var start_time: float = 0.2
 var tick_speed: float
 var time: float
 
+
 func _ready() -> void:
-	tick_speed = GlobalTime.get_tick_speed() \
-		 if GlobalTime.get_tick_speed() else 1 / day_length
-	time = GlobalTime.get_time() \
-		 if GlobalTime.get_time() else start_time
+	tick_speed = (GlobalTime.get_tick_speed()
+		 if GlobalTime.get_tick_speed() else 1 / day_length)
+	time = (GlobalTime.get_time()
+		 if GlobalTime.get_time() else start_time)
 	
 	GlobalTime.set_tick_speed(tick_speed)
 	moon_offset = sun_offset + 180.0
@@ -37,6 +38,7 @@ func _process(delta: float) -> void:
 		time = 0.0
 	
 	GlobalTime.set_time(time)
+	print(GlobalTime.get_clock())
 
 	sun.visible = sun.light_energy > 0
 	moon.visible = moon.light_energy > 0

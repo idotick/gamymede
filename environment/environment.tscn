@@ -48,7 +48,6 @@ moon_color = SubResource("Gradient_8a1ph")
 moon_intensity = SubResource("Curve_wjl7u")
 top_color = SubResource("Gradient_wjl7u")
 horizon_color = SubResource("Gradient_7uceq")
-day_length = 420.0
 
 [node name="World" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0xm2m")

@@ -36,6 +36,7 @@ func on_falling_finished():
 	$Mesh.visible = false
 	
 	item_drops.drop("wood", global_position, 3, 1)
+	item_drops.drop("tree_seed", global_position, randi_range(0, 3), 3)
 	
 	queue_free()
 
