@@ -2,6 +2,8 @@ extends Node3D
 
 class_name Room
 
+@export var modifiable: bool = false
+
 signal portal_entered(room: String, id: String)
 
 func enter_portal(room: String, id: String):

@@ -1,0 +1,15 @@
+{
+	"start": {
+		"name": "Snowie Smitherpuff",
+		"message": "I SAW A RAINBOW BIRD RAHHHHH",
+		"duration": 2,
+		"next": "a1"
+	},
+	
+	"a1": {
+		"name": "Snowie Smitherpuff",
+		"message": "did you see a rainbow bird too?",
+		"duration": 2,
+		"next": "end"
+	},
+}

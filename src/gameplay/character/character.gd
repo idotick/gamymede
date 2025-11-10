@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+class_name Character
+
 signal tile_changed
 
 @export var MOVEMENT_SPEED: float = 20
@@ -10,8 +12,11 @@ signal tile_changed
 
 @onready var move_direction: Vector2i = Vector2i.ZERO
 
-	
-
+func interact():
+	if (has_node("Dialog")):
+		var dialog = get_node("Dialog")
+		dialog.interact()
+		
 func prioritize_axis(vec: Vector2, horizontal: bool = true):
 	if (vec.x > 0 and horizontal):
 		return Vector2(vec.x, 0)

@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://cxku3pkax6t28"]
+[gd_scene load_steps=17 format=3 uid="uid://cxku3pkax6t28"]
 
-[ext_resource type="Script" uid="uid://c241dhtdr8apy" path="res://src/rooms/room.gd" id="1_1jkbg"]
+[ext_resource type="Script" uid="uid://c241dhtdr8apy" path="res://src/gameplay/room/room.gd" id="1_1jkbg"]
 [ext_resource type="ArrayMesh" uid="uid://cn7awmqh446fi" path="res://assets/models/DS _ DSi - Pokemon Diamond _ Pearl - Map Objects - Pokemon Center/Pokémon Center.obj" id="1_2brwk"]
 [ext_resource type="Texture2D" uid="uid://dyeqjbsp0dw7m" path="res://assets/models/DS _ DSi - Pokemon Diamond _ Pearl - Map Objects - Pokemon Center/h_kage.png" id="2_y11cr"]
 [ext_resource type="Texture2D" uid="uid://cd67cy8tov0mt" path="res://assets/models/DS _ DSi - Pokemon Diamond _ Pearl - Map Objects - Pokemon Center/pc_1.png" id="3_fqwm5"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://lrhxr5j0hs1c" path="res://src/gameplay/portals/portal.tscn" id="6_k8u3p"]
 [ext_resource type="PackedScene" uid="uid://1gl1bfkcoj3v" path="res://src/environment/environment.tscn" id="6_t1r8a"]
 [ext_resource type="PackedScene" uid="uid://dgdcspgsamvom" path="res://src/gameplay/props/tree/tree.tscn" id="7_b78hp"]
+[ext_resource type="PackedScene" uid="uid://cbfbhhjt2w6jq" path="res://src/gameplay/character/character.tscn" id="9_gv0fa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
 albedo_texture = ExtResource("2_y11cr")
@@ -107,3 +108,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 id = "door1"
 destination_room = "house"
 destination_id = "door1"
+
+[node name="Portal2" parent="Portals" instance=ExtResource("6_k8u3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -3)
+id = "door2"
+destination_room = "house"
+destination_id = "door2"
+
+[node name="Characters" type="Node3D" parent="."]
+
+[node name="Character" parent="Characters" instance=ExtResource("9_gv0fa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)

@@ -1,6 +1,7 @@
 extends Node
 
 signal pause_toggled
+signal interact_requested
 
 @onready var world = get_tree().current_scene.get_node("World")
 @onready var camera: Camera3D = world.get_node("CameraAnchor/Camera3D")
@@ -39,9 +40,12 @@ func on_key_event(event: InputEventKey):
 	if (!event.pressed):
 		return
 		
-	if (event.keycode == KEY_ESCAPE):
-		print('yes')
-		pause_toggled.emit()
+	match event.keycode:
+		KEY_F:
+			interact_requested.emit()
+			
+		KEY_ESCAPE:
+			pause_toggled.emit()
 	
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton):

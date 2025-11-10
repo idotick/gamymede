@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bexw6fs78jioe"]
+[gd_scene load_steps=28 format=3 uid="uid://bexw6fs78jioe"]
 
 [ext_resource type="Script" uid="uid://c0yhj4gt4wrt8" path="res://src/gameplay/camera/camera_3d.gd" id="1_eihfo"]
 [ext_resource type="PackedScene" uid="uid://xkwy17wgm3ms" path="res://src/player/player.tscn" id="2_75ybj"]
@@ -14,7 +14,10 @@
 [ext_resource type="Script" uid="uid://b8s0p5f7b2y03" path="res://src/ui/inventory/inventory.gd" id="10_myrom"]
 [ext_resource type="Script" uid="uid://3cvcgo8sm230" path="res://src/ui/inventory/items.gd" id="11_n20si"]
 [ext_resource type="Script" uid="uid://bxvwlksahge1u" path="res://src/ui/pause/pause.gd" id="12_7udxm"]
+[ext_resource type="Script" uid="uid://lhepqcjjw4qm" path="res://src/dialog/dialog.gd" id="12_rjh17"]
+[ext_resource type="Script" uid="uid://cpngxr8a71ng3" path="res://src/handlers/interact.gd" id="13_gxlna"]
 [ext_resource type="Script" uid="uid://ckslkg570rbrm" path="res://src/fx/room_transition.gd" id="13_juvxu"]
+[ext_resource type="Script" uid="uid://lhsnwrdtwqsb" path="res://src/ui/dialogue/dialog.gd" id="17_f83t1"]
 
 [sub_resource type="Animation" id="Animation_owlgm"]
 resource_name = "room_transition"
@@ -91,6 +94,67 @@ _data = {
 &"room_transition": SubResource("Animation_nrb37")
 }
 
+[sub_resource type="Animation" id="Animation_gxlna"]
+resource_name = "on_message"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Message:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_ucf6r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Message:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87qgq"]
+_data = {
+&"RESET": SubResource("Animation_ucf6r"),
+&"on_message": SubResource("Animation_gxlna")
+}
+
 [node name="Main" type="Node3D"]
 
 [node name="World" type="Node3D" parent="."]
@@ -146,6 +210,12 @@ script = ExtResource("9_bw6qx")
 ITEM_DATA_PATH = "res://assets/items.json"
 
 [node name="Planting" type="Node" parent="Handlers"]
+
+[node name="Dialog" type="Node" parent="Handlers"]
+script = ExtResource("12_rjh17")
+
+[node name="Interact" type="Node" parent="Handlers"]
+script = ExtResource("13_gxlna")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -267,9 +337,63 @@ libraries = {
 &"": SubResource("AnimationLibrary_owlgm")
 }
 
+[node name="Dialog" type="Control" parent="FX"]
+custom_minimum_size = Vector2(800, 160)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("17_f83t1")
+
+[node name="Panel" type="Panel" parent="FX/Dialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="Label" parent="FX/Dialog"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = 141.0
+offset_bottom = 37.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+text = "Hornet"
+
+[node name="Message" type="Label" parent="FX/Dialog"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 47.0
+offset_right = 715.0
+offset_bottom = 129.0
+text = "Lorem ipsum et dolor"
+autowrap_mode = 3
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Dialog"]
+libraries = {
+&"": SubResource("AnimationLibrary_87qgq")
+}
+
+[node name="Characters" type="Node3D" parent="."]
+
 [connection signal="room_changed" from="World/Room" to="FX/RoomTransition" method="_on_room_room_changed"]
 [connection signal="timeout" from="World/Room/Timer" to="World/Room" method="_on_timer_timeout"]
 [connection signal="changed" from="Handlers/Inventory" to="UI/Inventory" method="_on_inventory_changed"]
+[connection signal="interact_requested" from="Handlers/Input" to="Handlers/Interact" method="_on_input_interact_requested"]
 [connection signal="pause_toggled" from="Handlers/Input" to="Handlers/Game" method="_on_input_pause_toggled"]
 [connection signal="pause_changed" from="Handlers/Game" to="UI/Pause" method="_on_game_pause_changed"]
+[connection signal="playing" from="Handlers/Dialog" to="FX/Dialog" method="_on_dialog_playing"]
 [connection signal="pressed" from="UI/Pause/VBoxContainer/ExitButton" to="Handlers/Game" method="_on_exit_button_pressed"]
