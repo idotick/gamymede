@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://baqtcpvjriwj2"]
+
+[ext_resource type="Script" uid="uid://c241dhtdr8apy" path="res://src/rooms/room.gd" id="1_g4erh"]
+[ext_resource type="PackedScene" uid="uid://lrhxr5j0hs1c" path="res://src/gameplay/portals/portal.tscn" id="1_vxrdl"]
+[ext_resource type="PackedScene" uid="uid://1gl1bfkcoj3v" path="res://src/environment/environment.tscn" id="2_sy82n"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ycdy4"]
+albedo_color = Color(0.10870918, 0.20440155, 0.21508306, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_w48qg"]
+material = SubResource("StandardMaterial3D_ycdy4")
+size = Vector3(50, 5, 50)
+
+[node name="Room" type="Node3D"]
+script = ExtResource("1_g4erh")
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="Buildings" type="Node3D" parent="Map"]
+
+[node name="Environment" parent="Map" instance=ExtResource("2_sy82n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Floor" type="Node3D" parent="Map"]
+
+[node name="Ground" type="MeshInstance3D" parent="Map/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+mesh = SubResource("BoxMesh_w48qg")
+skeleton = NodePath("../../..")
+
+[node name="Portals" type="Node3D" parent="."]
+
+[node name="Portal" parent="Portals" instance=ExtResource("1_vxrdl")]
+id = "door1"
+destination_room = "town"
+destination_id = "door1"
+
+[node name="Props" type="Node3D" parent="."]

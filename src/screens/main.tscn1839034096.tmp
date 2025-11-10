@@ -1,0 +1,267 @@
+[gd_scene load_steps=20 format=3 uid="uid://bexw6fs78jioe"]
+
+[ext_resource type="Script" uid="uid://c0yhj4gt4wrt8" path="res://src/gameplay/camera/camera_3d.gd" id="1_eihfo"]
+[ext_resource type="PackedScene" uid="uid://xkwy17wgm3ms" path="res://src/player/player.tscn" id="2_75ybj"]
+[ext_resource type="PackedScene" uid="uid://cspocv3e5oo3l" path="res://src/handlers/item_drops.tscn" id="3_tpeee"]
+[ext_resource type="Script" uid="uid://bj81l8fsh3su2" path="res://src/handlers/item_drops.gd" id="4_rjh17"]
+[ext_resource type="Script" uid="uid://devfb6pkja233" path="res://src/handlers/room.gd" id="5_f83t1"]
+[ext_resource type="Script" uid="uid://dww0257nvb65r" path="res://src/handlers/inventory.gd" id="6_gxlna"]
+[ext_resource type="Script" uid="uid://bluh0bda1oucm" path="res://src/handlers/input.gd" id="7_ucf6r"]
+[ext_resource type="Script" uid="uid://b7x4lasr120j3" path="res://src/handlers/game.gd" id="8_87qgq"]
+[ext_resource type="Script" uid="uid://c6g6oykm6qhoh" path="res://src/handlers/items.gd" id="9_bw6qx"]
+[ext_resource type="Script" uid="uid://b8s0p5f7b2y03" path="res://src/ui/inventory/inventory.gd" id="10_myrom"]
+[ext_resource type="Script" uid="uid://3cvcgo8sm230" path="res://src/ui/inventory/items.gd" id="11_n20si"]
+[ext_resource type="Script" uid="uid://bxvwlksahge1u" path="res://src/ui/pause/pause.gd" id="12_7udxm"]
+[ext_resource type="Script" uid="uid://ckslkg570rbrm" path="res://src/fx/room_transition.gd" id="13_juvxu"]
+
+[sub_resource type="Animation" id="Animation_owlgm"]
+resource_name = "room_transition"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("World/Room")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shift_room"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xd12c"]
+_data = {
+&"room_transition": SubResource("Animation_owlgm")
+}
+
+[sub_resource type="Animation" id="Animation_ramac"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ycjph"]
+resource_name = "leave_room"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_nrb37"]
+resource_name = "room_transition"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.6333333, 0.9666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_owlgm"]
+_data = {
+&"RESET": SubResource("Animation_ramac"),
+&"leave_room": SubResource("Animation_ycjph"),
+&"room_transition": SubResource("Animation_nrb37")
+}
+
+[node name="Main" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="CameraAnchor" type="Node3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Camera3D" type="Camera3D" parent="World/CameraAnchor"]
+transform = Transform3D(1, 0, 0, 0, 0.98596394, 0.16695827, 0, -0.16695827, 0.98596394, 0, 4.0611954, 9.774313)
+size = 23.369
+script = ExtResource("1_eihfo")
+
+[node name="Player" parent="World" instance=ExtResource("2_75ybj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="World/Player"]
+remote_path = NodePath("../../CameraAnchor")
+
+[node name="ItemDrops" parent="World" instance=ExtResource("3_tpeee")]
+script = ExtResource("4_rjh17")
+BASE_ITEM_DROP_PATH = "uid://bg8ixoqexr301"
+
+[node name="Room" type="Node3D" parent="World"]
+script = ExtResource("5_f83t1")
+
+[node name="Timer" type="Timer" parent="World/Room"]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="World/Room"]
+root_node = NodePath("../../..")
+libraries = {
+&"": SubResource("AnimationLibrary_xd12c")
+}
+
+[node name="Handlers" type="Node" parent="."]
+
+[node name="Inventory" type="Node" parent="Handlers"]
+script = ExtResource("6_gxlna")
+
+[node name="Input" type="Node" parent="Handlers"]
+script = ExtResource("7_ucf6r")
+
+[node name="Game" type="Node" parent="Handlers"]
+script = ExtResource("8_87qgq")
+
+[node name="Items" type="Node" parent="Handlers"]
+script = ExtResource("9_bw6qx")
+ITEM_DATA_PATH = "res://assets/items.json"
+
+[node name="Planting" type="Node" parent="Handlers"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Inventory" type="Control" parent="UI"]
+custom_minimum_size = Vector2(800, 480)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("10_myrom")
+capacity = 40
+
+[node name="Panel" type="Panel" parent="UI/Inventory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Inventory"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -368.0
+offset_top = -228.0
+offset_right = 368.0
+offset_bottom = 228.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 16
+
+[node name="Items" type="GridContainer" parent="UI/Inventory/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 8
+script = ExtResource("11_n20si")
+
+[node name="Pause" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("12_7udxm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Pause"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="OptionsButton" type="Button" parent="UI/Pause/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "OPTIONS"
+
+[node name="ControlsButton" type="Button" parent="UI/Pause/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "CONTROLS"
+
+[node name="ExitButton" type="Button" parent="UI/Pause/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+text = "EXIT"
+
+[node name="FX" type="CanvasLayer" parent="."]
+
+[node name="RoomTransition" type="Control" parent="FX"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("13_juvxu")
+
+[node name="ColorRect" type="ColorRect" parent="FX/RoomTransition"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FX/RoomTransition"]
+libraries = {
+&"": SubResource("AnimationLibrary_owlgm")
+}
+
+[connection signal="room_changed" from="World/Room" to="FX/RoomTransition" method="_on_room_room_changed"]
+[connection signal="timeout" from="World/Room/Timer" to="World/Room" method="_on_timer_timeout"]
+[connection signal="changed" from="Handlers/Inventory" to="UI/Inventory" method="_on_inventory_changed"]
+[connection signal="pause_toggled" from="Handlers/Input" to="Handlers/Game" method="_on_input_pause_toggled"]
+[connection signal="pause_changed" from="Handlers/Game" to="UI/Pause" method="_on_game_pause_changed"]
+[connection signal="pressed" from="UI/Pause/VBoxContainer/ExitButton" to="Handlers/Game" method="_on_exit_button_pressed"]

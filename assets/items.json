@@ -1,0 +1,4 @@
+{
+	"wood": {"tags": ["material", "craftable", "fuel"]},
+	"tree_seed": {"tags": ["seed", "fuel"]}
+}
