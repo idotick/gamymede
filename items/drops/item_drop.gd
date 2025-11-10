@@ -1,5 +1,7 @@
 extends Node3D
 
+class_name ItemDrop
+
 @export var id: String
 
 @onready var handlers = get_tree().current_scene.get_node("Handlers")
@@ -16,10 +18,8 @@ func on_click():
 func _ready() -> void:
 	$AnimationPlayer.play("Drop")
 
-
 func _on_area_3d_mouse_entered() -> void:
 	$Label3D.visible = true
-
 
 func _on_area_3d_mouse_exited() -> void:
 	$Label3D.visible = false

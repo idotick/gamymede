@@ -4,7 +4,7 @@ extends Node3D
 
 @onready var world = get_tree().current_scene.get_node("World")
 
-@onready var item_drops = world.get_node("Items")
+@onready var item_drops = world.get_node("ItemDrops")
 
 @onready var integrity: int = initial_integrity:
 	set(x):

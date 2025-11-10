@@ -1,27 +1,20 @@
-extends Node3D
+extends Node
 
-@onready var base_item_drop = preload("res://items/item_drop.tscn")
+var items: Dictionary = {
+	"wood": {"tags": ["material", "craftable", "fuel"]},
+	"tree_seed": {"tags": ["seed", "fuel"]}
+}
 
-func get_spread_offset(spread: float):
-	return Vector3(randf_range(-.5, .5), 0, randf_range(-.5, .5)) * spread
+func exists(id: String):
+	return items.has(id)
 
-func create(id: String, pos: Vector3):
-	var item_drop = base_item_drop.instantiate()
+func applicable(id: String, tag: String):
+	if (!exists(id)):
+		return false
+		
+	var item: Dictionary = items[id]
+	var tags: Array = item.tags
 	
-	item_drop.id = id
-	item_drop.name = id.capitalize()
-	item_drop.position = pos
+	return (tag in tags)
 	
-	add_child(item_drop)
-	
-func drop(id: String, pos: Vector3, amount: int = 1, spread: float = 0):
-	if (amount <= 0):
-		return
-	
-	if (spread == 0):
-		create(id, pos)
-		return
-	
-	for i in range(amount):
-		create(id, pos + get_spread_offset(spread))
 	

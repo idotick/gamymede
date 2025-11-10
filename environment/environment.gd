@@ -38,7 +38,6 @@ func _process(delta: float) -> void:
 		time = 0.0
 	
 	GlobalTime.set_time(time)
-	print(GlobalTime.get_clock())
 
 	sun.visible = sun.light_energy > 0
 	moon.visible = moon.light_energy > 0
