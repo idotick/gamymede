@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d0snwiqwwqppi"
+path="res://.godot/imported/midnight walks.mp3-3bbfdf7a24bde5a3fe90864043c7dcab.mp3str"
+
+[deps]
+
+source_file="res://assets/music/midnight walks.mp3"
+dest_files=["res://.godot/imported/midnight walks.mp3-3bbfdf7a24bde5a3fe90864043c7dcab.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

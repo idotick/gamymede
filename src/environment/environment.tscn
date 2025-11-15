@@ -27,8 +27,10 @@ offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1)
 colors = PackedColorArray(0.13725491, 0.2509804, 0.65882355, 1, 0.8784314, 0.5764706, 0.27450982, 1, 0.5019608, 0.8, 0.9843137, 1, 0.50198483, 0.8015927, 0.98513407, 1, 0.88, 0.5764, 0.2728, 1, 0.13859999, 0.25157002, 0.66, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7dm0k"]
-sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
-ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+sky_top_color = Color(0.6852235, 0.34297058, 0.30911765, 1)
+sky_horizon_color = Color(0.6931372, 0.49509805, 0.37058824, 1)
+ground_bottom_color = Color(0.6852235, 0.34297058, 0.30911765, 1)
+ground_horizon_color = Color(0.6931372, 0.49509805, 0.37058824, 1)
 
 [sub_resource type="Sky" id="Sky_ig7tw"]
 sky_material = SubResource("ProceduralSkyMaterial_7dm0k")
@@ -38,10 +40,13 @@ background_mode = 2
 sky = SubResource("Sky_ig7tw")
 tonemap_mode = 2
 glow_enabled = true
+fog_enabled = true
+fog_sun_scatter = 0.2
 
 [node name="Environment" type="Node3D"]
 transform = Transform3D(0.92895824, 0, -0.37018457, 0, 1, 0, 0.37018457, 0, 0.92895824, 0, 0, 0)
 script = ExtResource("1_8i5xt")
+start_time = 0.15
 sun_color = SubResource("Gradient_8i5xt")
 sun_intensity = SubResource("Curve_8a1ph")
 moon_color = SubResource("Gradient_8a1ph")
@@ -53,8 +58,15 @@ horizon_color = SubResource("Gradient_7uceq")
 environment = SubResource("Environment_0xm2m")
 
 [node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.80901694, 0.5877853, 0, -0.5877853, 0.80901694, 0, 0, 0)
+visible = false
+light_color = Color(0.18956338, 0.08510001, 0.37, 1)
+light_energy = 0.35199997
 shadow_enabled = true
 sky_mode = 1
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9701989, -0.23862654, 0.042088594, -0.16908924, -0.79114944, -0.5877852, 0.17355952, 0.56315184, -0.8079215, 0, 0, 0)
+light_color = Color(0.9106918, 0.5676677, 0.46953157, 1)
+light_energy = 0.648
 shadow_enabled = true

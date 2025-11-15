@@ -1,14 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgdcspgsamvom"]
+[gd_scene load_steps=9 format=3 uid="uid://dljp3onsiitac"]
 
-[ext_resource type="Script" uid="uid://brm0v0wvmscit" path="res://src/gameplay/props/tree/tree.gd" id="1_befjb"]
-[ext_resource type="Texture2D" uid="uid://4augx57wtbud" path="res://assets/textures/flora_atlas.png" id="2_ohtks"]
+[ext_resource type="Script" uid="uid://brm0v0wvmscit" path="res://src/gameplay/props/tree/tree.gd" id="1_1left"]
+[ext_resource type="Texture2D" uid="uid://cn4gc1dburv8l" path="res://assets/textures/flora_atlas2.png" id="2_ii58w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ohtks"]
-atlas = ExtResource("2_ohtks")
-region = Rect2(34, 4, 57, 117)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_747lg"]
-size = Vector3(1.2, 4.2, 1.2)
+atlas = ExtResource("2_ii58w")
+region = Rect2(100, 87, 45, 34)
 
 [sub_resource type="Animation" id="Animation_41fbk"]
 resource_name = "Chop"
@@ -123,16 +120,13 @@ _data = {
 &"RESET": SubResource("Animation_ecotl")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_e1qqo"]
-size = Vector3(0.5, 2, 0.5)
-
-[node name="Tree" type="StaticBody3D"]
-script = ExtResource("1_befjb")
+[node name="Bush" type="Node3D"]
+script = ExtResource("1_1left")
 
 [node name="Mesh" type="Node3D" parent="."]
 
 [node name="Sprite3D" type="Sprite3D" parent="Mesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.4938674, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2737818, 0)
 pixel_size = 0.08
 shaded = true
 double_sided = false
@@ -140,17 +134,7 @@ alpha_cut = 2
 texture_filter = 0
 texture = SubResource("AtlasTexture_ohtks")
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("BoxShape3D_747lg")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_6tvge")
 }
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("BoxShape3D_e1qqo")

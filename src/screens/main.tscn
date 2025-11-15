@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bexw6fs78jioe"]
+[gd_scene load_steps=36 format=3 uid="uid://bexw6fs78jioe"]
 
 [ext_resource type="Script" uid="uid://c0yhj4gt4wrt8" path="res://src/gameplay/camera/camera_3d.gd" id="1_eihfo"]
 [ext_resource type="PackedScene" uid="uid://xkwy17wgm3ms" path="res://src/player/player.tscn" id="2_75ybj"]
@@ -11,13 +11,21 @@
 [ext_resource type="Script" uid="uid://bluh0bda1oucm" path="res://src/handlers/input.gd" id="7_ucf6r"]
 [ext_resource type="Script" uid="uid://b7x4lasr120j3" path="res://src/handlers/game.gd" id="8_87qgq"]
 [ext_resource type="Script" uid="uid://c6g6oykm6qhoh" path="res://src/handlers/items.gd" id="9_bw6qx"]
-[ext_resource type="Script" uid="uid://b8s0p5f7b2y03" path="res://src/ui/inventory/inventory.gd" id="10_myrom"]
-[ext_resource type="Script" uid="uid://3cvcgo8sm230" path="res://src/ui/inventory/items.gd" id="11_n20si"]
+[ext_resource type="Script" uid="uid://b8s0p5f7b2y03" path="res://inventory/inventory.gd" id="10_myrom"]
+[ext_resource type="Script" uid="uid://3cvcgo8sm230" path="res://inventory/items.gd" id="11_n20si"]
 [ext_resource type="Script" uid="uid://bxvwlksahge1u" path="res://src/ui/pause/pause.gd" id="12_7udxm"]
 [ext_resource type="Script" uid="uid://lhepqcjjw4qm" path="res://src/dialog/dialog.gd" id="12_rjh17"]
 [ext_resource type="Script" uid="uid://cpngxr8a71ng3" path="res://src/handlers/interact.gd" id="13_gxlna"]
 [ext_resource type="Script" uid="uid://ckslkg570rbrm" path="res://src/fx/room_transition.gd" id="13_juvxu"]
+[ext_resource type="Script" uid="uid://cins3exlh2khw" path="res://src/handlers/currency.gd" id="14_87qgq"]
 [ext_resource type="Script" uid="uid://lhsnwrdtwqsb" path="res://src/ui/dialogue/dialog.gd" id="17_f83t1"]
+[ext_resource type="FontFile" uid="uid://ku4aeq7a6p80" path="res://assets/fonts/MainFont.otf" id="18_7udxm"]
+[ext_resource type="Script" uid="uid://1jhenp77ntdj" path="res://src/ui/currency/currency.gd" id="18_bw6qx"]
+[ext_resource type="Script" uid="uid://dan5fgb3hjnsq" path="res://src/screens/time.gd" id="19_myrom"]
+[ext_resource type="FontFile" uid="uid://00y5fu4ucc58" path="res://assets/fonts/Seven Segment.ttf" id="19_n20si"]
+[ext_resource type="FontFile" uid="uid://cqpdrvf3pwih5" path="res://assets/fonts/Mermaid.ttf" id="19_ucf6r"]
+[ext_resource type="AudioStream" uid="uid://d0snwiqwwqppi" path="res://assets/music/midnight walks.mp3" id="25_juvxu"]
+[ext_resource type="Script" uid="uid://c0eywd2k03pr8" path="res://src/music/music.gd" id="25_oqs7k"]
 
 [sub_resource type="Animation" id="Animation_owlgm"]
 resource_name = "room_transition"
@@ -94,6 +102,33 @@ _data = {
 &"room_transition": SubResource("Animation_nrb37")
 }
 
+[sub_resource type="Animation" id="Animation_ucf6r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Message:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_gxlna"]
 resource_name = "on_message"
 length = 5.0
@@ -122,33 +157,6 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_ucf6r"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Message:visible_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_87qgq"]
 _data = {
 &"RESET": SubResource("Animation_ucf6r"),
@@ -163,7 +171,7 @@ _data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
 [node name="Camera3D" type="Camera3D" parent="World/CameraAnchor"]
-transform = Transform3D(1, 0, 0, 0, 0.98596394, 0.16695827, 0, -0.16695827, 0.98596394, 0, 4.0611954, 9.774313)
+transform = Transform3D(1, 0, 0, 0, 0.94339633, 0.33166748, 0, -0.33166748, 0.94339633, 0, 4.0090427, 7.0878563)
 size = 23.369
 script = ExtResource("1_eihfo")
 
@@ -217,9 +225,13 @@ script = ExtResource("12_rjh17")
 [node name="Interact" type="Node" parent="Handlers"]
 script = ExtResource("13_gxlna")
 
+[node name="Currency" type="Node" parent="Handlers"]
+script = ExtResource("14_87qgq")
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Inventory" type="Control" parent="UI"]
+visible = false
 custom_minimum_size = Vector2(800, 480)
 layout_mode = 3
 anchors_preset = 8
@@ -310,6 +322,37 @@ custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 text = "EXIT"
 
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Currency" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 37.0
+offset_right = 139.0
+offset_bottom = 82.0
+theme_override_fonts/font = ExtResource("18_7udxm")
+theme_override_font_sizes/font_size = 48
+text = "1000"
+script = ExtResource("18_bw6qx")
+
+[node name="Time" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 990.0
+offset_top = 37.0
+offset_right = 1063.0
+offset_bottom = 82.0
+theme_override_fonts/font = ExtResource("19_n20si")
+theme_override_font_sizes/font_size = 48
+text = "10:00"
+script = ExtResource("19_myrom")
+day_duration = 10.0
+
 [node name="FX" type="CanvasLayer" parent="."]
 
 [node name="RoomTransition" type="Control" parent="FX"]
@@ -338,7 +381,7 @@ libraries = {
 }
 
 [node name="Dialog" type="Control" parent="FX"]
-custom_minimum_size = Vector2(800, 160)
+custom_minimum_size = Vector2(960, 200)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -363,20 +406,22 @@ grow_vertical = 2
 
 [node name="Name" type="Label" parent="FX/Dialog"]
 layout_mode = 0
-offset_left = 14.0
-offset_top = 14.0
-offset_right = 141.0
-offset_bottom = 37.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+offset_left = 23.0
+offset_top = 22.0
+offset_right = 150.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.9955731, 0.91324234, 0.94949394, 1)
+theme_override_fonts/font = ExtResource("19_ucf6r")
+theme_override_font_sizes/font_size = 24
 text = "Hornet"
 
 [node name="Message" type="Label" parent="FX/Dialog"]
 layout_mode = 0
 offset_left = 41.0
-offset_top = 47.0
-offset_right = 715.0
-offset_bottom = 129.0
+offset_top = 62.0
+offset_right = 929.0
+offset_bottom = 170.03561
+theme_override_fonts/font = ExtResource("19_ucf6r")
 text = "Lorem ipsum et dolor"
 autowrap_mode = 3
 visible_characters = 0
@@ -387,7 +432,11 @@ libraries = {
 &"": SubResource("AnimationLibrary_87qgq")
 }
 
-[node name="Characters" type="Node3D" parent="."]
+[node name="Music" type="Node3D" parent="."]
+script = ExtResource("25_oqs7k")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="Music"]
+stream = ExtResource("25_juvxu")
 
 [connection signal="room_changed" from="World/Room" to="FX/RoomTransition" method="_on_room_room_changed"]
 [connection signal="timeout" from="World/Room/Timer" to="World/Room" method="_on_timer_timeout"]
@@ -396,4 +445,5 @@ libraries = {
 [connection signal="pause_toggled" from="Handlers/Input" to="Handlers/Game" method="_on_input_pause_toggled"]
 [connection signal="pause_changed" from="Handlers/Game" to="UI/Pause" method="_on_game_pause_changed"]
 [connection signal="playing" from="Handlers/Dialog" to="FX/Dialog" method="_on_dialog_playing"]
+[connection signal="changed" from="Handlers/Currency" to="UI/HUD/Currency" method="_on_currency_changed"]
 [connection signal="pressed" from="UI/Pause/VBoxContainer/ExitButton" to="Handlers/Game" method="_on_exit_button_pressed"]

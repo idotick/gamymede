@@ -1,5 +1,8 @@
 extends Control
 
+func _ready() -> void:
+	visible = false
+
 func play(data: Dictionary):
 	var name: String = data.name
 	var message: String = data.message

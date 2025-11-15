@@ -1,56 +1,80 @@
+@tool
+
 extends Node3D
 
-
-@onready var sun: DirectionalLight3D = $Sun
-@export var sun_color: Gradient
-@export var sun_intensity: Curve
 var sun_offset: float = 90.0
+var moon_offset: float = sun_offset + 180.0
 
-@onready var moon: DirectionalLight3D = $Moon
-@export var moon_color: Gradient
-@export var moon_intensity: Curve
-var moon_offset: float
+var time: float = 0
 
-@onready var world: WorldEnvironment = $World
-@export var top_color: Gradient
-@export var horizon_color: Gradient
+@export_category("Time")
 
 @export var day_length: float = 420.0
-@export var start_time: float = 0.2
-var tick_speed: float
-var time: float
 
+@export_range(0.0, 1.0, 0.01) var start_time: float = 0.2:
+	set(value):
+		start_time = value
+		time = start_time
+		update_environment()
+		
+@export var ticking: bool = true
+		
+@export_category("Celestial Objects")
+
+@export var sun_color: Gradient
+@export var sun_intensity: Curve
+@export var moon_color: Gradient
+@export var moon_intensity: Curve
+
+@export var top_color: Gradient:
+	set(value):
+		top_color = value
+		update_environment()
+
+@export var horizon_color: Gradient:
+	set(value):
+		horizon_color = value
+		update_environment()
+
+@onready var tick_speed: float = 1 / day_length
 
 func _ready() -> void:
-	tick_speed = (GlobalTime.get_tick_speed()
-		 if GlobalTime.get_tick_speed() else 1 / day_length)
-	time = (GlobalTime.get_time()
-		 if GlobalTime.get_time() else start_time)
+	tick_speed = 1 / day_length
 	
-	GlobalTime.set_tick_speed(tick_speed)
-	moon_offset = sun_offset + 180.0
+	update_environment()
 
+func update_environment() -> void:
+	if (!has_node("Sun") || !has_node("Moon")):
+		return
 
+	$Sun.visible = $Sun.light_energy > 0
+	$Moon.visible = $Moon.light_energy > 0
+	
+	$Sun.rotation_degrees.x = sun_offset + time * 360
+	$Sun.light_color = sun_color.sample(time)
+	$Sun.light_energy = sun_intensity.sample(time)
+	
+	$Moon.rotation_degrees.x = moon_offset + time * 360
+	$Moon.light_color  = moon_color.sample(time)
+	$Moon.light_energy = moon_intensity.sample(time)
+	
+	$World.environment.sky.sky_material.set("sky_top_color", top_color.sample(time))
+	$World.environment.sky.sky_material.set("ground_bottom_color", top_color.sample(time))
+	$World.environment.sky.sky_material.set("sky_horizon_color", horizon_color.sample(time))
+	$World.environment.sky.sky_material.set("ground_horizon_color", horizon_color.sample(time))
+	
+	
 func _process(delta: float) -> void:
+	if (Engine.is_editor_hint()):
+		return
+		
+	if (!ticking):
+		return
+		
 	time += tick_speed * delta
-	
+		
 	if time >= 1.0:
 		time = 0.0
-	
-	GlobalTime.set_time(time)
 
-	sun.visible = sun.light_energy > 0
-	moon.visible = moon.light_energy > 0
+	update_environment()
 	
-	sun.rotation_degrees.x = sun_offset + time * 360
-	sun.light_color = sun_color.sample(time)
-	sun.light_energy = sun_intensity.sample(time)
-	
-	moon.rotation_degrees.x = moon_offset + time * 360
-	moon.light_color  = moon_color.sample(time)
-	moon.light_energy = moon_intensity.sample(time)
-	
-	world.environment.sky.sky_material.set("sky_top_color", top_color.sample(time))
-	world.environment.sky.sky_material.set("ground_bottom_color", top_color.sample(time))
-	world.environment.sky.sky_material.set("sky_horizon_color", horizon_color.sample(time))
-	world.environment.sky.sky_material.set("ground_horizon_color", horizon_color.sample(time))

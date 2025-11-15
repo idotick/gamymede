@@ -1,11 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgdcspgsamvom"]
+[gd_scene load_steps=11 format=3 uid="uid://cnertv61xcnf"]
 
-[ext_resource type="Script" uid="uid://brm0v0wvmscit" path="res://src/gameplay/props/tree/tree.gd" id="1_befjb"]
-[ext_resource type="Texture2D" uid="uid://4augx57wtbud" path="res://assets/textures/flora_atlas.png" id="2_ohtks"]
+[ext_resource type="Script" uid="uid://brm0v0wvmscit" path="res://src/gameplay/props/tree/tree.gd" id="1_6ssks"]
+[ext_resource type="Texture2D" uid="uid://cn4gc1dburv8l" path="res://assets/textures/flora_atlas2.png" id="2_6ssks"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ohtks"]
-atlas = ExtResource("2_ohtks")
-region = Rect2(34, 4, 57, 117)
+atlas = ExtResource("2_6ssks")
+region = Rect2(34, 133, 58, 170)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_747lg"]
 size = Vector3(1.2, 4.2, 1.2)
@@ -126,13 +126,13 @@ _data = {
 [sub_resource type="BoxShape3D" id="BoxShape3D_e1qqo"]
 size = Vector3(0.5, 2, 0.5)
 
-[node name="Tree" type="StaticBody3D"]
-script = ExtResource("1_befjb")
+[node name="TallTree" type="StaticBody3D"]
+script = ExtResource("1_6ssks")
 
 [node name="Mesh" type="Node3D" parent="."]
 
 [node name="Sprite3D" type="Sprite3D" parent="Mesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.4938674, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5858946, 0)
 pixel_size = 0.08
 shaded = true
 double_sided = false
