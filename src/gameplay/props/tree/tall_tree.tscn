@@ -1,7 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cnertv61xcnf"]
+[gd_scene load_steps=14 format=3 uid="uid://cnertv61xcnf"]
 
 [ext_resource type="Script" uid="uid://brm0v0wvmscit" path="res://src/gameplay/props/tree/tree.gd" id="1_6ssks"]
 [ext_resource type="Texture2D" uid="uid://cn4gc1dburv8l" path="res://assets/textures/flora_atlas2.png" id="2_6ssks"]
+[ext_resource type="AudioStream" uid="uid://u26siphhgsft" path="res://assets/sfx/tree_chop.wav" id="3_aoya4"]
+[ext_resource type="AudioStream" uid="uid://cjc4ufmsqjbhv" path="res://assets/sfx/tree_fall.wav" id="4_qodi8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ohtks"]
 atlas = ExtResource("2_6ssks")
@@ -9,6 +11,9 @@ region = Rect2(34, 133, 58, 170)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_747lg"]
 size = Vector3(1.2, 4.2, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e1qqo"]
+size = Vector3(0.5, 2, 0.5)
 
 [sub_resource type="Animation" id="Animation_41fbk"]
 resource_name = "Chop"
@@ -41,9 +46,25 @@ tracks/1/keys = {
 "method": &"set_invincibility"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_aoya4")
+}],
+"times": PackedFloat32Array(0.06666667)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_befjb"]
 resource_name = "FallLeft"
+length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -63,16 +84,32 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(3.0666666),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"on_falling_finished"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 1.01,
+"start_offset": 0.0,
+"stream": ExtResource("4_qodi8")
+}],
+"times": PackedFloat32Array(0.3)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_6tvge"]
 resource_name = "FallRight"
+length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -92,13 +129,28 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.966667),
+"times": PackedFloat32Array(3.1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"on_falling_finished"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 1.01,
+"start_offset": 0.0,
+"stream": ExtResource("4_qodi8")
+}],
+"times": PackedFloat32Array(0.53333336)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_ecotl"]
 length = 0.001
@@ -123,7 +175,7 @@ _data = {
 &"RESET": SubResource("Animation_ecotl")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_e1qqo"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_aoya4"]
 size = Vector3(0.5, 2, 0.5)
 
 [node name="TallTree" type="StaticBody3D"]
@@ -146,11 +198,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("BoxShape3D_747lg")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_e1qqo")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_6tvge")
 }
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("BoxShape3D_e1qqo")
+shape = SubResource("BoxShape3D_aoya4")
+
+[node name="Sound" type="AudioStreamPlayer3D" parent="."]
+bus = &"Effects"

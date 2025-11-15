@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cxku3pkax6t28"]
+[gd_scene load_steps=16 format=3 uid="uid://cxku3pkax6t28"]
 
 [ext_resource type="Script" uid="uid://c241dhtdr8apy" path="res://src/gameplay/room/room.gd" id="1_1jkbg"]
 [ext_resource type="PackedScene" uid="uid://coye074p0ugcg" path="res://src/gameplay/structures/house.tscn" id="2_vhuiv"]
@@ -16,14 +16,7 @@ albedo_color = Color(0.1223583, 0.30098513, 0.18482873, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_w48qg"]
 material = SubResource("StandardMaterial3D_ycdy4")
-size = Vector3(50, 5, 50)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w48qg"]
-albedo_color = Color(0.28836486, 0.060051493, 0.13199541, 1)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_vivmo"]
-material = SubResource("StandardMaterial3D_w48qg")
-size = Vector2(100, 100)
+size = Vector3(250, 5, 250)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gv0fa"]
 emission_shape = 3
@@ -52,7 +45,7 @@ script = ExtResource("1_1jkbg")
 
 [node name="Environment" parent="." instance=ExtResource("6_t1r8a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-start_time = 0.24
+start_time = 0.37
 ticking = false
 
 [node name="Map" type="Node3D" parent="."]
@@ -67,11 +60,6 @@ ticking = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
 mesh = SubResource("BoxMesh_w48qg")
 skeleton = NodePath("../../..")
-
-[node name="Seabed" type="MeshInstance3D" parent="Map/Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
-mesh = SubResource("PlaneMesh_vivmo")
-skeleton = NodePath("../..")
 
 [node name="Props" type="Node3D" parent="."]
 

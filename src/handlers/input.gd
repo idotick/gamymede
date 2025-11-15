@@ -1,6 +1,6 @@
 extends Node
 
-signal pause_toggled
+signal exit_requested
 signal interact_requested
 
 @onready var world = get_tree().current_scene.get_node("World")
@@ -45,7 +45,7 @@ func on_key_event(event: InputEventKey):
 			interact_requested.emit()
 			
 		KEY_ESCAPE:
-			pause_toggled.emit()
+			exit_requested.emit()
 	
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton):

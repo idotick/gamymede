@@ -58,9 +58,17 @@ func handle_move_direction():
 		
 	if (Input.is_action_just_released("move_backward")):
 		halt(Vector2i.DOWN)
+
+func handle_audio() -> void:
+	if (move_direction != Vector2i.ZERO && !$WalkingAudio.playing):
+		$WalkingAudio.play()
+		
+	if (move_direction == Vector2i.ZERO && $WalkingAudio.playing):
+		$WalkingAudio.stop()
 		
 func _physics_process(delta: float) -> void:
 	handle_move_direction()
+	handle_audio()
 	
 	global_position = global_position.move_toward(plane_to_3d(Vector2(grid_position) * tile_size), movement_speed / tile_size * delta)
 	

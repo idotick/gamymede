@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bexw6fs78jioe"]
+[gd_scene load_steps=42 format=3 uid="uid://bexw6fs78jioe"]
 
 [ext_resource type="Script" uid="uid://c0yhj4gt4wrt8" path="res://src/gameplay/camera/camera_3d.gd" id="1_eihfo"]
 [ext_resource type="PackedScene" uid="uid://xkwy17wgm3ms" path="res://src/player/player.tscn" id="2_75ybj"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://baqtcpvjriwj2" path="res://src/rooms/house.tscn" id="7_rjh17"]
 [ext_resource type="Script" uid="uid://bluh0bda1oucm" path="res://src/handlers/input.gd" id="7_ucf6r"]
 [ext_resource type="Script" uid="uid://b7x4lasr120j3" path="res://src/handlers/game.gd" id="8_87qgq"]
+[ext_resource type="AudioStream" uid="uid://b2tesdf34r4lt" path="res://assets/sfx/door_enter.wav" id="8_nijh5"]
 [ext_resource type="Script" uid="uid://c6g6oykm6qhoh" path="res://src/handlers/items.gd" id="9_bw6qx"]
 [ext_resource type="Script" uid="uid://b8s0p5f7b2y03" path="res://inventory/inventory.gd" id="10_myrom"]
 [ext_resource type="Script" uid="uid://3cvcgo8sm230" path="res://inventory/items.gd" id="11_n20si"]
@@ -18,18 +19,22 @@
 [ext_resource type="Script" uid="uid://cpngxr8a71ng3" path="res://src/handlers/interact.gd" id="13_gxlna"]
 [ext_resource type="Script" uid="uid://ckslkg570rbrm" path="res://src/fx/room_transition.gd" id="13_juvxu"]
 [ext_resource type="Script" uid="uid://cins3exlh2khw" path="res://src/handlers/currency.gd" id="14_87qgq"]
+[ext_resource type="Script" uid="uid://btfrqksb531js" path="res://src/handlers/volume.gd" id="16_fwcwm"]
 [ext_resource type="Script" uid="uid://lhsnwrdtwqsb" path="res://src/ui/dialogue/dialog.gd" id="17_f83t1"]
 [ext_resource type="FontFile" uid="uid://ku4aeq7a6p80" path="res://assets/fonts/MainFont.otf" id="18_7udxm"]
 [ext_resource type="Script" uid="uid://1jhenp77ntdj" path="res://src/ui/currency/currency.gd" id="18_bw6qx"]
-[ext_resource type="Script" uid="uid://dan5fgb3hjnsq" path="res://src/screens/time.gd" id="19_myrom"]
+[ext_resource type="Script" uid="uid://dan5fgb3hjnsq" path="res://src/gameplay/time.gd" id="19_myrom"]
 [ext_resource type="FontFile" uid="uid://00y5fu4ucc58" path="res://assets/fonts/Seven Segment.ttf" id="19_n20si"]
 [ext_resource type="FontFile" uid="uid://cqpdrvf3pwih5" path="res://assets/fonts/Mermaid.ttf" id="19_ucf6r"]
+[ext_resource type="Script" uid="uid://ccgdmkneet66b" path="res://src/ui/hud/hud.gd" id="20_jifch"]
+[ext_resource type="Script" uid="uid://bnjkoklqj5uet" path="res://src/ui/options/options.gd" id="23_0oo6e"]
+[ext_resource type="Script" uid="uid://dcowjioxhgeaq" path="res://src/ui/options/volume/volume.gd" id="24_egoik"]
 [ext_resource type="AudioStream" uid="uid://d0snwiqwwqppi" path="res://assets/music/midnight walks.mp3" id="25_juvxu"]
 [ext_resource type="Script" uid="uid://c0eywd2k03pr8" path="res://src/music/music.gd" id="25_oqs7k"]
 
 [sub_resource type="Animation" id="Animation_owlgm"]
 resource_name = "room_transition"
-length = 0.5
+length = 1.5
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -44,10 +49,65 @@ tracks/0/keys = {
 "method": &"shift_room"
 }]
 }
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("World/Room/Enter")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_nijh5")
+}],
+"times": PackedFloat32Array(0.26666668)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xd12c"]
 _data = {
 &"room_transition": SubResource("Animation_owlgm")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nijh5"]
+bg_color = Color(0.0885599, 0.08855992, 0.08855986, 1)
+
+[sub_resource type="Animation" id="Animation_ucf6r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Message:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_gxlna"]
+resource_name = "on_message"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Message:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.23333333, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87qgq"]
+_data = {
+&"RESET": SubResource("Animation_ucf6r"),
+&"on_message": SubResource("Animation_gxlna")
 }
 
 [sub_resource type="Animation" id="Animation_ramac"]
@@ -102,67 +162,6 @@ _data = {
 &"room_transition": SubResource("Animation_nrb37")
 }
 
-[sub_resource type="Animation" id="Animation_ucf6r"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Message:visible_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_gxlna"]
-resource_name = "on_message"
-length = 5.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Message:visible_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.23333333, 4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, 1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_87qgq"]
-_data = {
-&"RESET": SubResource("Animation_ucf6r"),
-&"on_message": SubResource("Animation_gxlna")
-}
-
 [node name="Main" type="Node3D"]
 
 [node name="World" type="Node3D" parent="."]
@@ -191,7 +190,7 @@ room_lib = Dictionary[String, PackedScene]({
 "house": ExtResource("7_rjh17"),
 "town": ExtResource("6_tpeee")
 })
-current_room_id = "town"
+current_room_id = "house"
 
 [node name="Timer" type="Timer" parent="World/Room"]
 one_shot = true
@@ -201,6 +200,11 @@ root_node = NodePath("../../..")
 libraries = {
 &"": SubResource("AnimationLibrary_xd12c")
 }
+
+[node name="Enter" type="AudioStreamPlayer" parent="World/Room"]
+stream = ExtResource("8_nijh5")
+volume_db = -10.0
+bus = &"Effects"
 
 [node name="Handlers" type="Node" parent="."]
 
@@ -212,6 +216,7 @@ script = ExtResource("7_ucf6r")
 
 [node name="Game" type="Node" parent="Handlers"]
 script = ExtResource("8_87qgq")
+MAIN_MENU_PATH = "res://src/screens/main_menu.tscn"
 
 [node name="Items" type="Node" parent="Handlers"]
 script = ExtResource("9_bw6qx")
@@ -227,6 +232,9 @@ script = ExtResource("13_gxlna")
 
 [node name="Currency" type="Node" parent="Handlers"]
 script = ExtResource("14_87qgq")
+
+[node name="Volume" type="Node" parent="Handlers"]
+script = ExtResource("16_fwcwm")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -329,6 +337,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("20_jifch")
 
 [node name="Currency" type="Label" parent="UI/HUD"]
 layout_mode = 0
@@ -352,6 +362,222 @@ theme_override_font_sizes/font_size = 48
 text = "10:00"
 script = ExtResource("19_myrom")
 day_duration = 10.0
+
+[node name="Options" type="Control" parent="UI"]
+custom_minimum_size = Vector2(900, 520)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("23_0oo6e")
+
+[node name="Panel" type="Panel" parent="UI/Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nijh5")
+
+[node name="ExitButton" type="Button" parent="UI/Options"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -36.0
+offset_top = 13.0
+offset_right = -17.0
+offset_bottom = 38.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("18_7udxm")
+theme_override_font_sizes/font_size = 32
+text = "X"
+
+[node name="Volume" type="Control" parent="UI/Options"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Category" type="Label" parent="UI/Options/Volume"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 26.0
+offset_right = 145.0
+offset_bottom = 59.0
+theme_override_fonts/font = ExtResource("18_7udxm")
+theme_override_font_sizes/font_size = 32
+text = "VOLUME"
+
+[node name="MasterVolume" type="Control" parent="UI/Options/Volume"]
+anchors_preset = 0
+offset_left = 57.0
+offset_top = 78.0
+offset_right = 408.0
+offset_bottom = 118.0
+mouse_filter = 2
+script = ExtResource("24_egoik")
+
+[node name="Volume" type="Label" parent="UI/Options/Volume/MasterVolume"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -16.5
+offset_right = 114.0
+offset_bottom = 16.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("18_7udxm")
+theme_override_font_sizes/font_size = 32
+text = "Master Volume"
+
+[node name="Slider" type="HSlider" parent="UI/Options/Volume/MasterVolume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 215.0
+offset_right = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+
+[node name="MusicVolume" type="Control" parent="UI/Options/Volume"]
+anchors_preset = 0
+offset_left = 57.0
+offset_top = 129.0
+offset_right = 408.0
+offset_bottom = 169.0
+mouse_filter = 2
+script = ExtResource("24_egoik")
+AUDIO_BUS = "Music"
+
+[node name="Volume" type="Label" parent="UI/Options/Volume/MusicVolume"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -16.5
+offset_right = 114.0
+offset_bottom = 16.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("18_7udxm")
+theme_override_font_sizes/font_size = 32
+text = "Music Volume"
+
+[node name="Slider" type="HSlider" parent="UI/Options/Volume/MusicVolume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 215.0
+offset_right = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+
+[node name="EffectVolume" type="Control" parent="UI/Options/Volume"]
+anchors_preset = 0
+offset_left = 57.0
+offset_top = 180.0
+offset_right = 408.0
+offset_bottom = 220.0
+mouse_filter = 2
+script = ExtResource("24_egoik")
+AUDIO_BUS = "Effects"
+
+[node name="Volume" type="Label" parent="UI/Options/Volume/EffectVolume"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -16.5
+offset_right = 114.0
+offset_bottom = 16.5
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("18_7udxm")
+theme_override_font_sizes/font_size = 32
+text = "Effect Volume"
+
+[node name="Slider" type="HSlider" parent="UI/Options/Volume/EffectVolume"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 215.0
+offset_right = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+
+[node name="Dialog" type="Control" parent="UI"]
+visible = false
+custom_minimum_size = Vector2(960, 200)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = 60.0
+offset_right = 480.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("17_f83t1")
+
+[node name="Panel" type="Panel" parent="UI/Dialog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Name" type="Label" parent="UI/Dialog"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 22.0
+offset_right = 150.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.9955731, 0.91324234, 0.94949394, 1)
+theme_override_fonts/font = ExtResource("19_ucf6r")
+theme_override_font_sizes/font_size = 24
+text = "Hornet"
+
+[node name="Message" type="Label" parent="UI/Dialog"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 62.0
+offset_right = 929.0
+offset_bottom = 170.03561
+theme_override_fonts/font = ExtResource("19_ucf6r")
+text = "Lorem ipsum et dolor"
+autowrap_mode = 3
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Dialog"]
+libraries = {
+&"": SubResource("AnimationLibrary_87qgq")
+}
 
 [node name="FX" type="CanvasLayer" parent="."]
 
@@ -380,70 +606,35 @@ libraries = {
 &"": SubResource("AnimationLibrary_owlgm")
 }
 
-[node name="Dialog" type="Control" parent="FX"]
-custom_minimum_size = Vector2(960, 200)
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = 80.0
-offset_right = 400.0
-offset_bottom = 240.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("17_f83t1")
-
-[node name="Panel" type="Panel" parent="FX/Dialog"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Name" type="Label" parent="FX/Dialog"]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 22.0
-offset_right = 150.0
-offset_bottom = 46.0
-theme_override_colors/font_color = Color(0.9955731, 0.91324234, 0.94949394, 1)
-theme_override_fonts/font = ExtResource("19_ucf6r")
-theme_override_font_sizes/font_size = 24
-text = "Hornet"
-
-[node name="Message" type="Label" parent="FX/Dialog"]
-layout_mode = 0
-offset_left = 41.0
-offset_top = 62.0
-offset_right = 929.0
-offset_bottom = 170.03561
-theme_override_fonts/font = ExtResource("19_ucf6r")
-text = "Lorem ipsum et dolor"
-autowrap_mode = 3
-visible_characters = 0
-visible_ratio = 0.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FX/Dialog"]
-libraries = {
-&"": SubResource("AnimationLibrary_87qgq")
-}
-
-[node name="Music" type="Node3D" parent="."]
+[node name="Music" type="Node" parent="."]
 script = ExtResource("25_oqs7k")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="Music"]
 stream = ExtResource("25_juvxu")
+bus = &"Music"
 
 [connection signal="room_changed" from="World/Room" to="FX/RoomTransition" method="_on_room_room_changed"]
 [connection signal="timeout" from="World/Room/Timer" to="World/Room" method="_on_timer_timeout"]
 [connection signal="changed" from="Handlers/Inventory" to="UI/Inventory" method="_on_inventory_changed"]
+[connection signal="exit_requested" from="Handlers/Input" to="Handlers/Game" method="_on_input_exit_requested"]
 [connection signal="interact_requested" from="Handlers/Input" to="Handlers/Interact" method="_on_input_interact_requested"]
-[connection signal="pause_toggled" from="Handlers/Input" to="Handlers/Game" method="_on_input_pause_toggled"]
+[connection signal="options_changed" from="Handlers/Game" to="UI/Options" method="_on_game_options_changed"]
 [connection signal="pause_changed" from="Handlers/Game" to="UI/Pause" method="_on_game_pause_changed"]
-[connection signal="playing" from="Handlers/Dialog" to="FX/Dialog" method="_on_dialog_playing"]
+[connection signal="playing" from="Handlers/Dialog" to="UI/Dialog" method="_on_dialog_playing"]
 [connection signal="changed" from="Handlers/Currency" to="UI/HUD/Currency" method="_on_currency_changed"]
+[connection signal="changed" from="UI/Pause" to="UI/Inventory" method="_on_pause_changed"]
+[connection signal="changed" from="UI/Pause" to="UI/HUD" method="_on_pause_changed"]
+[connection signal="changed" from="UI/Pause" to="UI/Dialog" method="_on_pause_changed"]
+[connection signal="options_requested" from="UI/Pause" to="UI/Options" method="_on_pause_options_requested"]
+[connection signal="pressed" from="UI/Pause/VBoxContainer/OptionsButton" to="UI/Pause" method="_on_options_button_pressed"]
 [connection signal="pressed" from="UI/Pause/VBoxContainer/ExitButton" to="Handlers/Game" method="_on_exit_button_pressed"]
+[connection signal="changed" from="UI/Options" to="Handlers/Game" method="_on_options_changed"]
+[connection signal="changed" from="UI/Options" to="UI/Pause" method="_on_options_changed"]
+[connection signal="pressed" from="UI/Options/ExitButton" to="UI/Options" method="_on_exit_button_pressed"]
+[connection signal="change_requested" from="UI/Options/Volume/MasterVolume" to="Handlers/Volume" method="_on_volume_change_requested"]
+[connection signal="value_changed" from="UI/Options/Volume/MasterVolume/Slider" to="UI/Options/Volume/MasterVolume" method="_on_slider_value_changed"]
+[connection signal="change_requested" from="UI/Options/Volume/MusicVolume" to="Handlers/Volume" method="_on_music_volume_change_requested"]
+[connection signal="value_changed" from="UI/Options/Volume/MusicVolume/Slider" to="UI/Options/Volume/MusicVolume" method="_on_slider_value_changed"]
+[connection signal="change_requested" from="UI/Options/Volume/EffectVolume" to="Handlers/Volume" method="_on_music_volume_change_requested"]
+[connection signal="value_changed" from="UI/Options/Volume/EffectVolume/Slider" to="UI/Options/Volume/EffectVolume" method="_on_slider_value_changed"]
+[connection signal="animation_finished" from="UI/Dialog/AnimationPlayer" to="UI/Dialog" method="_on_animation_player_animation_finished"]

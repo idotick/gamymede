@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://xkwy17wgm3ms"]
+[gd_scene load_steps=5 format=3 uid="uid://xkwy17wgm3ms"]
 
 [ext_resource type="Script" uid="uid://bnqvxsm8e2qct" path="res://src/player/player.gd" id="1_oul6g"]
 [ext_resource type="Texture2D" uid="uid://v4fgl6dekxrk" path="res://assets/textures/tessprite.png" id="2_rkbax"]
+[ext_resource type="AudioStream" uid="uid://c8uc4njvecwu0" path="res://assets/sfx/grass_walking.wav" id="3_mf2ua"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rkbax"]
 radius = 1.0
@@ -20,3 +21,7 @@ texture = ExtResource("2_rkbax")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_rkbax")
+
+[node name="WalkingAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_mf2ua")
+bus = &"Effects"
