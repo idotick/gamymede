@@ -49,6 +49,12 @@ id = "door1"
 destination_room = "town"
 destination_id = "door1"
 
+[node name="Portal2" parent="Portals" instance=ExtResource("1_vxrdl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+id = "door2"
+destination_room = "town"
+destination_id = "door2"
+
 [node name="Props" type="Node3D" parent="."]
 
 [node name="Characters" type="Node3D" parent="."]

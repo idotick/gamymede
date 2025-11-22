@@ -234,12 +234,12 @@ script = ExtResource("13_gxlna")
 [node name="Currency" type="Node" parent="Handlers"]
 script = ExtResource("14_87qgq")
 
+[node name="Volume" type="Node" parent="Handlers"]
+script = ExtResource("16_fwcwm")
+
 [node name="Settings" type="Node" parent="Handlers"]
 script = ExtResource("17_2bwv6")
 CONFIG_FILE_PATH = "res://data/config.cfg"
-
-[node name="Volume" type="Node" parent="Handlers"]
-script = ExtResource("16_fwcwm")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -631,7 +631,6 @@ bus = &"Music"
 [connection signal="updated" from="Handlers/Volume" to="UI/Options/Volume/MasterVolume" method="_on_volume_updated"]
 [connection signal="updated" from="Handlers/Volume" to="UI/Options/Volume/MusicVolume" method="_on_volume_updated"]
 [connection signal="updated" from="Handlers/Volume" to="UI/Options/Volume/EffectVolume" method="_on_volume_updated"]
-[connection signal="updated" from="Handlers/Volume" to="Handlers/Settings" method="_on_volume_updated"]
 [connection signal="changed" from="UI/Pause" to="UI/Inventory" method="_on_pause_changed"]
 [connection signal="changed" from="UI/Pause" to="UI/HUD" method="_on_pause_changed"]
 [connection signal="changed" from="UI/Pause" to="UI/Dialog" method="_on_pause_changed"]

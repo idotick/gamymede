@@ -234,12 +234,12 @@ script = ExtResource("13_gxlna")
 [node name="Currency" type="Node" parent="Handlers"]
 script = ExtResource("14_87qgq")
 
+[node name="Volume" type="Node" parent="Handlers"]
+script = ExtResource("16_fwcwm")
+
 [node name="Settings" type="Node" parent="Handlers"]
 script = ExtResource("17_2bwv6")
 CONFIG_FILE_PATH = "res://data/config.cfg"
-
-[node name="Volume" type="Node" parent="Handlers"]
-script = ExtResource("16_fwcwm")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -625,13 +625,8 @@ bus = &"Music"
 [connection signal="interact_requested" from="Handlers/Input" to="Handlers/Interact" method="_on_input_interact_requested"]
 [connection signal="options_changed" from="Handlers/Game" to="UI/Options" method="_on_game_options_changed"]
 [connection signal="pause_changed" from="Handlers/Game" to="UI/Pause" method="_on_game_pause_changed"]
-[connection signal="settings_save_requested" from="Handlers/Game" to="Handlers/Settings" method="_on_game_settings_save_requested"]
 [connection signal="playing" from="Handlers/Dialog" to="UI/Dialog" method="_on_dialog_playing"]
 [connection signal="changed" from="Handlers/Currency" to="UI/HUD/Currency" method="_on_currency_changed"]
-[connection signal="updated" from="Handlers/Volume" to="UI/Options/Volume/MasterVolume" method="_on_volume_updated"]
-[connection signal="updated" from="Handlers/Volume" to="UI/Options/Volume/MusicVolume" method="_on_volume_updated"]
-[connection signal="updated" from="Handlers/Volume" to="UI/Options/Volume/EffectVolume" method="_on_volume_updated"]
-[connection signal="updated" from="Handlers/Volume" to="Handlers/Settings" method="_on_volume_updated"]
 [connection signal="changed" from="UI/Pause" to="UI/Inventory" method="_on_pause_changed"]
 [connection signal="changed" from="UI/Pause" to="UI/HUD" method="_on_pause_changed"]
 [connection signal="changed" from="UI/Pause" to="UI/Dialog" method="_on_pause_changed"]

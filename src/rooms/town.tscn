@@ -45,7 +45,7 @@ script = ExtResource("1_1jkbg")
 
 [node name="Environment" parent="." instance=ExtResource("6_t1r8a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-start_time = 0.37
+start_time = 0.19
 ticking = false
 
 [node name="Map" type="Node3D" parent="."]
@@ -187,6 +187,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.290409)
 id = "door1"
 destination_room = "house"
 destination_id = "door1"
+
+[node name="Portal2" parent="Portals" instance=ExtResource("6_k8u3p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 5.290409)
+id = "door2"
+destination_room = "house"
+destination_id = "door2"
 
 [node name="Characters" type="Node3D" parent="."]
 

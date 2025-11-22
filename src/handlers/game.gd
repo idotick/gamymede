@@ -4,6 +4,7 @@ extends Node
 
 signal pause_changed(value: bool)
 signal options_changed(value: bool)
+signal settings_save_requested
 
 @onready var paused: bool = false
 @onready var ui_opened: bool = false
@@ -28,3 +29,8 @@ func _on_input_exit_requested() -> void:
 
 func _on_options_changed(value: bool) -> void:
 	ui_opened = value
+	
+	if (value):
+		return
+	
+	settings_save_requested.emit()
